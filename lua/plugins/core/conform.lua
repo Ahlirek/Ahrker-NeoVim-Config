@@ -34,6 +34,7 @@ return {
 				graphql = { "prettierd" },
 				lua = { "stylua" },
 				python = { "isort", "black" },
+				terraform = { "terraform" },
 			},
 			formatters = {
 				prettierd = {

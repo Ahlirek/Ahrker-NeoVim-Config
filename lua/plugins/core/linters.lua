@@ -14,7 +14,7 @@ return {
 			typescript = { "eslint_d" },
 			javascriptreact = { "eslint_d" },
 			typescriptreact = { "eslint_d" },
-			terraform = { "eslint_d" },
+			terraform = { "tflint" },
 			python = { "pylint" },
 			json = { "jsonlint" },
 		}
@@ -33,3 +33,4 @@ return {
 		end, { desc = "Trigger linting for current file" })
 	end,
 }
+

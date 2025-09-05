@@ -4,6 +4,7 @@ return {
 	build = ":TSUpdate", -- Automatically update parsers
 	config = function()
 		require("nvim-treesitter.configs").setup({
+			ignore_install = { "latex" },
 			-- A list of parser names, or "all" (the listed parsers MUST always be installed)
 			ensure_installed = {
 				"c",
@@ -34,7 +35,7 @@ return {
 			-- },
 			highlight = {
 				enable = true,
-
+				disable = { "latex" }, -- 👈 THIS is what actually disables TS highlighting
 				-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
 				-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
 				-- Using this option may slow down your editor, and you may see some duplicate highlights.
@@ -44,3 +45,4 @@ return {
 		})
 	end,
 }
+
