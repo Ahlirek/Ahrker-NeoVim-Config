@@ -1,15 +1,16 @@
 return {
 	"williamboman/mason.nvim",
+	enabled = true,
 	dependencies = {
 		"williamboman/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer",
 		"hrsh7th/cmp-nvim-lsp",
 		"jay-babu/mason-nvim-dap.nvim",
 	},
-	enabled = true,
-	config = function()
-		local mason = require("mason")
 
+	config = function()
+		-- Mason
+		local mason = require("mason")
 		mason.setup({
 			ui = {
 				icons = {
@@ -20,16 +21,8 @@ return {
 			},
 		})
 
+		-- Mason-lsp
 		local mason_lspconfig = require("mason-lspconfig")
-		local cmp_lsp = require("cmp_nvim_lsp")
-
-		local capabilities = vim.tbl_deep_extend(
-			"force",
-			{},
-			vim.lsp.protocol.make_client_capabilities(),
-			cmp_lsp.default_capabilities()
-		)
-
 		mason_lspconfig.setup({
 			ensure_installed = {
 				"ts_ls",
@@ -43,35 +36,42 @@ return {
 				"cssls",
 				"tailwindcss",
 			},
-			handlers = {
-				function(server_name)
-					require("lspconfig")[server_name].setup({
-						capabilities = capabilities,
-					})
-				end,
-				lua_ls = function()
-					require("lspconfig").lua_ls.setup({
-						capabilities = capabilities,
-						settings = {
-							Lua = {
-								runtime = {
-									version = "LuaJIT",
-								},
-								diagnostics = {
-									globals = { "vim" },
-								},
-								workspace = {
-									library = {
-										vim.env.VIMRUNTIME,
-									},
-								},
-							},
-						},
-					})
-				end,
+		})
+
+		-- Config lsp servers
+
+		local cmp_lsp = require("cmp_nvim_lsp")
+		local capabilities =
+			vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), cmp_lsp.default_capabilities())
+
+		local common_on_attach = function(client, bufnr)
+			-- Your keymaps, diagnostics, etc. here
+			local opts = { buffer = bufnr, remap = false }
+		end
+
+		vim.lsp.config("*", {
+			capabilities = capabilities, -- Your autocompletition capabilities
+			on_attach = common_on_attach, -- Your common keymaps
+		})
+
+		vim.lsp.config("lua_ls", {
+			settings = {
+				Lua = {
+					runtime = {
+						version = "LuaJIT",
+					},
+					diagnostics = {
+						globals = { "vim" },
+					},
+					workspace = {
+						library = vim.api.nvim_get_runtime_file("", true),
+						checkThirdParty = false,
+					},
+					telemetry = {
+						enable = false,
+					},
+				},
 			},
-			-- auto-install configured servers (with lspconfig)
-			automatic_installation = true, -- not the same as ensure_installed
 		})
 
 		-- Linters and Formatters

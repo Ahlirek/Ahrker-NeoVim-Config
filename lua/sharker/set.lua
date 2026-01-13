@@ -1,4 +1,4 @@
--- SHARKER CONFIGURATIONS
+-- AHLIREK CONFIGURATIONS
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
