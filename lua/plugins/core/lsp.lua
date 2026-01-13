@@ -20,7 +20,6 @@ return {
 				end
 
 				keymap.set("n", "gd", function()
-					-- vim.lsp.buf.definition()
 					builtin.lsp_definitions()
 				end, create_opts("Go to definition"))
 
@@ -29,12 +28,10 @@ return {
 				end, create_opts("Go to declaration"))
 
 				keymap.set("n", "<leader>vi", function()
-					-- vim.lsp.buf.implementation()
 					builtin.lsp_implementations()
 				end, create_opts("Show LSP implementation"))
 
 				keymap.set("n", "<leader>vt", function()
-					-- vim.lsp.buf.type_definition()
 					builtin.lsp_type_definitions()
 				end, create_opts("Show LSP type definitions"))
 
@@ -57,11 +54,11 @@ return {
 				-- 	vim.diagnostic.setloclist()
 				-- end, create_opts("Open diagnostic Quickfix"))
 
-				keymap.set("n", "[d", function()
+				keymap.set("n", "]d", function()
 					vim.diagnostic.jump({ count = 1, float = true })
 				end, create_opts("Go to next diagnostic"))
 
-				keymap.set("n", "]d", function()
+				keymap.set("n", "[d", function()
 					vim.diagnostic.jump({ count = -1, float = true })
 				end, create_opts("Go to previous diagnostic"))
 
@@ -70,7 +67,6 @@ return {
 				end, create_opts("Show code actions"))
 
 				keymap.set("n", "<leader>vrr", function()
-					-- vim.lsp.buf.references()
 					builtin.lsp_references()
 				end, create_opts("Show LSP references"))
 
