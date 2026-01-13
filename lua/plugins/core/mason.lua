@@ -44,14 +44,8 @@ return {
 		local capabilities =
 			vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), cmp_lsp.default_capabilities())
 
-		local common_on_attach = function(client, bufnr)
-			-- Your keymaps, diagnostics, etc. here
-			local opts = { buffer = bufnr, remap = false }
-		end
-
 		vim.lsp.config("*", {
 			capabilities = capabilities, -- Your autocompletition capabilities
-			on_attach = common_on_attach, -- Your common keymaps
 		})
 
 		vim.lsp.config("lua_ls", {

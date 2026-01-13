@@ -165,10 +165,6 @@ return {
 					request = "launch",
 				},
 			}
-			--------------------------
-			-- Python
-			--------------------------
-			require("dap-python").setup("python3")
 		end
 	end,
 }

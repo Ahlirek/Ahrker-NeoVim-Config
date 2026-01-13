@@ -86,11 +86,11 @@ return {
 
 		vim.diagnostic.config({
 			signs = {
-				active = {
-					{ name = "DiagnosticSignError", text = " " },
-					{ name = "DiagnosticSignWarn", text = " " },
-					{ name = "DiagnosticSignHint", text = "󰠠 " },
-					{ name = "DiagnosticSignInfo", text = " " },
+				text = {
+					[vim.diagnostic.severity.ERROR] = " ",
+					[vim.diagnostic.severity.WARN] = " ",
+					[vim.diagnostic.severity.INFO] = " ",
+					[vim.diagnostic.severity.HINT] = "󰌵 ",
 				},
 			},
 			-- Optional: Additional diagnostic options
@@ -98,7 +98,7 @@ return {
 			update_in_insert = false,
 			severity_sort = true,
 			virtual_text = {
-				prefix = "●", -- or any symbol you prefer
+				prefix = "●",
 			},
 		})
 	end,
