@@ -76,19 +76,37 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- small terminal
+local term_buf = nil
 local job_id = 0
-vim.keymap.set("n", "<leader>pt", function()
+vim.keymap.set({ "n", "t" }, "<leader>pt", function()
+	for _, win in ipairs(vim.api.nvim_list_wins()) do
+		if vim.api.nvim_win_get_buf(win) == term_buf then
+			vim.api.nvim_win_close(win, true)
+			return
+		end
+	end
+
+	if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
+		vim.cmd.vnew()
+		vim.cmd("buffer " .. term_buf)
+		vim.cmd.wincmd("J")
+		vim.api.nvim_win_set_height(0, 15)
+		vim.cmd("startinsert!")
+		return
+	end
 	vim.cmd.vnew()
 	vim.cmd.term()
 	vim.cmd.wincmd("J")
 	vim.api.nvim_win_set_height(0, 15)
 
 	job_id = vim.bo.channel
-end, { desc = "Open small terminal" })
+	term_buf = vim.api.nvim_get_current_buf()
+	vim.cmd("startinsert!")
+end, { desc = "Toggle persistent terminal" })
 
-vim.keymap.set("n", "<leader>example", function()
-	vim.fn.chansend(job_id, { "echo hi\r\n" })
-end)
+vim.keymap.set("n", "<leader>pr", function()
+	vim.fn.chansend(job_id, { "npm run dev\r\n" })
+end, { desc = "Run: nmp run dev" })
 
 vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Return to normal mode in terminal." })
 vim.keymap.set("n", "<leader>af", "ggVG", { desc = "Select [a]ll [f]ile" })

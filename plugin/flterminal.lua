@@ -1,5 +1,9 @@
 local state = {
-	floating = {
+	term1 = {
+		buf = -1,
+		win = -1,
+	},
+	term2 = {
 		buf = -1,
 		win = -1,
 	},
@@ -38,19 +42,33 @@ local function create_floating_window(opts)
 	return { buf = buf, win = win }
 end
 
-local toggle_terminal = function()
-	if not vim.api.nvim_win_is_valid(state.floating.win) then
-		state.floating = create_floating_window({ buf = state.floating.buf })
-		if vim.bo[state.floating.buf].buftype ~= "terminal" then
+local function toggle_floating_terminal(term_state)
+	if not vim.api.nvim_win_is_valid(term_state.win) then
+		local created = create_floating_window({ buf = term_state.buf })
+		term_state.buf = created.buf
+		term_state.win = created.win
+
+		if vim.bo[term_state.buf].buftype ~= "terminal" then
 			vim.cmd.terminal()
 		end
-		vim.cmd("startinsert")
+		vim.cmd("startinsert!")
 	else
-		vim.api.nvim_win_hide(state.floating.win)
+		vim.api.nvim_win_hide(term_state.win)
 	end
 end
 
-vim.api.nvim_create_user_command("Floaterminal", toggle_terminal, {})
-vim.keymap.set({ "n", "t" }, "<leader>pf", toggle_terminal, { desc = "Toggle terminal" })
--- TODO: Enter terminal in insert mode
+vim.api.nvim_create_user_command("Floaterminal", function()
+	toggle_floating_terminal(state.term1)
+end, {})
+vim.api.nvim_create_user_command("Floaterminal2", function()
+	toggle_floating_terminal(state.term2)
+end, {})
+
+vim.keymap.set({ "n", "t" }, "<leader>pf", function()
+	toggle_floating_terminal(state.term1)
+end, { desc = "Toggle terminal 1" })
+
+vim.keymap.set({ "n", "t" }, "<leader>pF", function()
+	toggle_floating_terminal(state.term2)
+end, { desc = "Toggle terminal 2" })
 
