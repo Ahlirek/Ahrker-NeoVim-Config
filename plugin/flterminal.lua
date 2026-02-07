@@ -2,10 +2,12 @@ local state = {
 	term1 = {
 		buf = -1,
 		win = -1,
+		title = "Terminal 1",
 	},
 	term2 = {
 		buf = -1,
 		win = -1,
+		title = "Terminal 2",
 	},
 }
 
@@ -35,6 +37,7 @@ local function create_floating_window(opts)
 		row = row,
 		style = "minimal",
 		border = "rounded",
+		title = "" .. opts.title,
 	}
 
 	-- Create the floating window
@@ -44,7 +47,7 @@ end
 
 local function toggle_floating_terminal(term_state)
 	if not vim.api.nvim_win_is_valid(term_state.win) then
-		local created = create_floating_window({ buf = term_state.buf })
+		local created = create_floating_window({ buf = term_state.buf, title = term_state.title })
 		term_state.buf = created.buf
 		term_state.win = created.win
 
