@@ -6,9 +6,7 @@ return {
 		-- VimTeX configuration goes here, e.g.
 		vim.g.vimtex_view_method = "zathura"
 		vim.g.vimtex_compiler_method = "latexmk"
-	end,
-	config = function() -- Optional for keymaps
-		vim.keymap.set("n", "<leader>xl", "<plug>(vimtex-compile)", { silent = true })
+		vim.g.vimtex_quickfix_mode = 0 -- Default 2 (open error window automatically - VimtexErrors)
 	end,
 }
 
