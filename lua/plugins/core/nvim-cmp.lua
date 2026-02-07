@@ -9,6 +9,7 @@ return {
 		"L3MON4D3/LuaSnip",
 		"saadparwaiz1/cmp_luasnip",
 		"rafamadriz/friendly-snippets",
+		"lukas-reineke/cmp-under-comparator",
 	},
 
 	config = function()
@@ -39,6 +40,19 @@ return {
 				{ name = "buffer" },
 				{ name = "path" },
 			}),
+			sorting = {
+				comparators = {
+					cmp.config.compare.offset,
+					cmp.config.compare.exact,
+					cmp.config.compare.score,
+					require("cmp-under-comparator").under,
+					cmp.config.compare.kind,
+					cmp.config.compare.sort_text,
+					cmp.config.compare.length,
+					cmp.config.compare.order,
+				},
+			},
 		})
 	end,
 }
+
