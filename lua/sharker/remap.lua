@@ -104,7 +104,7 @@ vim.keymap.set({ "n", "t" }, "<leader>pt", function()
 	vim.cmd("startinsert!")
 end, { desc = "Toggle persistent terminal" })
 
-vim.keymap.set("n", "<leader>pr", function()
+vim.keymap.set({ "n", "t" }, "<leader>pr", function()
 	vim.fn.chansend(job_id, { "npm run dev\r\n" })
 end, { desc = "Run: nmp run dev" })
 
