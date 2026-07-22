@@ -121,3 +121,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 	pattern = { "*.ly", "*.ily", "*.tex" },
 })
 
+-- ChordPro
+vim.keymap.set("n", "<Leader>cp", ":!chordpro % -o %:r.pdf<CR>", { noremap = true, desc = "Compile & open ChordPro" })
+vim.keymap.set("n", "<Leader>cf", ":!zathura %:r.pdf &<CR>", { noremap = true, desc = "Open current file PDF" })
+
